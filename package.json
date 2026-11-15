@@ -2,6 +2,22 @@
   "name": "dsh-agent-mail",
   "version": "0.3.8",
   "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yoyume374/dsh-agent-mail.git"
+  },
+  "homepage": "https://github.com/yoyume374/dsh-agent-mail#readme",
+  "bugs": {
+    "url": "https://github.com/yoyume374/dsh-agent-mail/issues"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "agent",
+    "mail",
+    "multi-agent"
+  ],
   "description": "DSH 会话之间的 agent 邮件：不进聊天历史，经提示词投递、可唤醒对方，并在会话上方「邮件」页签按线程查看",
   "type": "module",
   "main": "lib/index.js",

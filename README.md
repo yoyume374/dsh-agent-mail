@@ -60,6 +60,10 @@
 - **离线**：未打开的会话会被 `sessionController.resolveAgent` 加载后唤醒（返回 `resumed: true`）；已归档会话仍需先恢复。对方在跑长任务时，唤醒排在当前轮之后。
 - **来源信封**：`read` / `wait` 的正文包在 `【agent 邮件 · 来自 名称(会话id) · 时间 · id=…】` 里。历史被压缩后结构化来源会丢，提示词要求压缩时保留来源与 id；邮箱原件 `mailbox.jsonl` 永久保留，随时可重读。
 
+## 兼容性
+
+在 **DSH 0.2.2-rc.3 + desktop profile（Windows）** 上验证。依赖的是 DSH 内部接口：宿主侧的 `ctx.tools` / `ctx.systemPrompt` / `sessionController` / `sessionQuery`，客户端槽位 `conversation.view`、`plugins.row.config`，以及 `TypertRemoteService` 的 `@Remote`。DSH 升级可能改动它们，插件不一定自动跟随；升级 DSH 后先跑一遍单测与 smoke，再实际收发一封邮件确认。
+
 ## 安装
 
 ```
@@ -77,6 +81,13 @@ dsh plugin --profile desktop add "file:<你的目录>/dsh-agent-mail"
 
 确认拷贝已换新：对比本目录与 `~/.dsh/profiles/desktop/node_modules/dsh-agent-mail/lib/client.js` 的 `md5sum`。
 
+**安装别人的仓库**：克隆后把克隆目录加进 profile 即可（不要把仓库放进 DSH 安装目录，升级会删除）：
+
+```
+git clone https://github.com/yoyume374/dsh-agent-mail.git
+dsh plugin --profile desktop add "file:<克隆目录>/dsh-agent-mail"
+```
+
 页签若显示「当前视图没有会话身份」，说明 `conversation.view` 的 `inject(sessionId)` 没拿到会话 id：先确认拷贝是最新，再刷新页面。
 
 ## 测试
@@ -85,4 +96,8 @@ dsh plugin --profile desktop add "file:<你的目录>/dsh-agent-mail"
 node --test test/store.test.mjs test/schema.test.mjs test/service.test.mjs test/settings.test.mjs
 ```
 
-覆盖邮箱读写与裁剪、回复链深度、限流、设置覆盖层、schema 方言、RPC 服务层。沙箱 smoke 在**工作区根**：`cp dsh-agent-mail/lib/*.js .smoke/plugin/lib/ && cd .smoke/plugin && node smoke.mjs`，另覆盖唤醒通知形状、离线唤醒、`wakeOffline` 开关与会话标题。
+覆盖邮箱读写与裁剪、回复链深度、限流、设置覆盖层、schema 方言、RPC 服务层。沙箱 smoke 需要 DSH 的宿主桩，不在本仓库内（开发环境的工作区根 `.smoke/plugin`）：`cp dsh-agent-mail/lib/*.js .smoke/plugin/lib/ && cd .smoke/plugin && node smoke.mjs`，另覆盖唤醒通知形状、离线唤醒、`wakeOffline` 开关与会话标题。
+
+## 许可证
+
+MIT，见 [LICENSE](LICENSE)。
