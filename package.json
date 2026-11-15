@@ -18,7 +18,7 @@
     "mail",
     "multi-agent"
   ],
-  "description": "DSH 会话之间的 agent 邮件：不进聊天历史，经提示词投递、可唤醒对方，并在会话上方「邮件」页签按线程查看",
+  "description": "DSH 会话之间的 agent 邮件：发信即唤醒对方（离线会话也会先加载），回信按线程在会话上方「邮件」页签查看",
   "type": "module",
   "main": "lib/index.js",
   "exports": {
