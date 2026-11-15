@@ -10,6 +10,23 @@
 4. **页签**：客户端在 `conversation.view` 注册「邮件」页，经 `/api` 的 `agentMail` 命名空间读同一个邮箱。按线程分卡，标出「→ 发出 / ← 收到」、回复的是哪封、以及「已发出 / agent 已读 / agent 未读」。对象名用**会话标题**（侧边栏可改名的那个），取不到才退化成工作区目录名、会话 id。
 5. **已读只由 agent 决定**：页签展开正文不会标已读，只有 `agent_mail_read` / `agent_mail_ack` 才算；没有「全部已读」按钮。
 
+```mermaid
+sequenceDiagram
+  participant A as 会话 A（发送方）
+  participant M as mailbox.jsonl
+  participant D as DSH 宿主
+  participant B as 会话 B（接收方）
+  participant T as 「邮件」页签
+  A->>M: agent_mail_send 写入
+  M->>D: 每轮系统提示词里的未读摘要
+  D->>B: followup 唤醒（在线，或离线先加载）
+  B->>B: agent_mail_read → 处理任务
+  B->>M: 回信（replyTo 延续线程）
+  M-->>T: 线程视图，peek 不改已读
+```
+
+邮件内容只走「邮箱 → 提示词摘要 → 唤醒」这条路，不写会话事件日志，所以用户聊天历史里看不到邮件。
+
 ## 工具
 
 | 工具 | 作用 |

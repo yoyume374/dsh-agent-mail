@@ -1,0 +1,44 @@
+name: Bug 报告
+description: 邮件没送到、唤醒失败、页签显示异常等
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        先确认：装的是最新拷贝（remove + add 之后重启过 DSH），并跑了 `node --test` 四个测试文件。
+  - type: input
+    id: dsh-version
+    attributes:
+      label: DSH 版本
+      placeholder: "例如 0.2.2-rc.3"
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: 出问题的部分
+      options:
+        - 发信 / 投递
+        - 唤醒（在线或离线）
+        - 「邮件」页签
+        - 设置页 / 配置入口
+        - 未读提示词摘要
+        - 其他
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: 现象
+      description: 期望什么、实际什么；有报错请贴原文
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: 复现步骤
+      placeholder: |
+        1. agent_mail_send 给 <会话标题>
+        2. 对方 ...
+    validations:
+      required: true
