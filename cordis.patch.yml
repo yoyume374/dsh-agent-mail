@@ -1,0 +1,4 @@
+# Add the agent-mail plugin to the profile's plugin list.
+- insert:
+    - id: agent-mail
+      name: dsh-agent-mail
